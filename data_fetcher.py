@@ -139,12 +139,31 @@ def _infer_risk_from_label(label: str) -> str:
 
 # ── Exodus Privacy API ─────────────────────────────────────────────────────────
 
+def _get_package_name(app_name: str) -> Optional[str]:
+    """Use Google Play scraper to find the package name for an app name."""
+    try:
+        from google_play_scraper import search
+        results = search(app_name, n_hits=1, lang="en", country="us")
+        if results:
+            return results[0].get("appId")
+    except Exception as e:
+        print(f"[Play scraper error] {e}")
+    return None
+
+
 def _exodus_search(query: str) -> Optional[dict]:
     """
-    Search Exodus for an app by name or package.
-    Returns the first matching app entry, or None.
+    Search Exodus using package name (not app name).
+    Uses google-play-scraper to resolve app name → package name first.
     """
-    url = EXODUS_SEARCH.format(query=query)
+    package_name = _get_package_name(query)
+    if not package_name:
+        print(f"[Exodus] Could not find package for '{query}'")
+        return None
+
+    print(f"[Exodus] Found package: {package_name}")
+
+    url = EXODUS_SEARCH.format(query=package_name)
     try:
         res = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
         res.raise_for_status()
@@ -153,19 +172,15 @@ def _exodus_search(query: str) -> Optional[dict]:
         print(f"[Exodus search error] {e}")
         return None
 
-    # Exodus may return {"applications": [...]} or a flat list
-    apps = (
-        data.get("applications")
-        or data.get("apps")
-        or data.get("results")
-        or (data if isinstance(data, list) else [])
-    )
+    # Exodus returns {package_name: {app_data}} when searched by package
+    if isinstance(data, dict):
+        apps = list(data.values())
+        if apps:
+            app = apps[0]
+            app["handle"] = package_name
+            return app
 
-    if not apps:
-        print(f"[Exodus] No results for '{query}'")
-        return None
-
-    return apps[0]
+    return None
 
 
 def _exodus_latest_report(handle: str) -> Optional[dict]:
@@ -326,21 +341,30 @@ def get_app_data(app_name: str) -> dict:
     """
     Fetch permissions + trackers for a single app.
 
-    1. Checks disk cache first.
-    2. Tries Exodus Privacy API.
-    3. Falls back to Google Play Store scraper.
-    4. Returns a not-found sentinel if both fail.
+    1. Checks hardcoded database (instant, reliable for demo).
+    2. Checks disk cache.
+    3. Tries Exodus Privacy API (using package name lookup).
+    4. Falls back to Google Play Store scraper.
+    5. Returns a not-found sentinel if all fail.
 
     Results are persisted to cache/app_data.json so repeat calls are instant.
     """
-    cache = _load_cache()
-    key   = app_name.lower().strip()
+    key = app_name.lower().strip()
 
+    # 1. Check hardcoded database first (instant, works offline)
+    from app_database import APP_DATABASE
+    if key in APP_DATABASE:
+        print(f"[Database] Found '{app_name}' in local database")
+        return APP_DATABASE[key]
+
+    # 2. Check disk cache
+    cache = _load_cache()
     if key in cache:
         result = dict(cache[key])
         result["cached"] = True
         return result
 
+    # 3. Try Exodus → 4. Play Store → 5. Not found
     result = _fetch_from_exodus(app_name) or _fetch_from_play_store(app_name) or _not_found(app_name)
 
     cache[key] = result
