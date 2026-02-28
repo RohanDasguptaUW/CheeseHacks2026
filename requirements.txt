@@ -1,0 +1,10 @@
+# Core
+requests>=2.31.0
+
+# Google Play Store fallback (needed if an app isn't in Exodus)
+google-play-scraper>=1.2.7
+
+# Person 4's backend (Flask or FastAPI — uncomment whichever is chosen)
+# flask>=3.0.0
+# fastapi>=0.111.0
+# uvicorn>=0.29.0
