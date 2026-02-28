@@ -1,111 +1,118 @@
-import os
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
-from google.cloud import firestore
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./gcp-key.json"
+app = FastAPI(title="PrivacyLens API")
 
-app = FastAPI()
+# 1. FIX CORS: This allows Person 3's React app to talk to your Mac
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-db = firestore.Client()
-
-RISK_DICTIONARY = {
-    "ACCESS_FINE_LOCATION": {
-        "score": -15, 
-        "desc": "Precise Location: Tracks exactly where you are, down to your specific dorm building."
-    },
-    "READ_CONTACTS": {
-        "score": -12, 
-        "desc": "Contacts: Can read every phone number and email address in your phone."
-    },
-    "ACTIVITY_RECOGNITION": {
-        "score": -10, 
-        "desc": "Activity: Knows when you are walking to class, running, or driving."
-    }
-}
-
-class DeltaResult(BaseModel):
-    permission: str
-    plain_english: str
-    risk_score: int
-
-class TimelineResponse(BaseModel):
-    app_name: str
-    new_permissions_count: int
-    total_risk_penalty: int
-    details: List[DeltaResult]
-
+# 2. DATA MODELS
 class AuditRequest(BaseModel):
     apps: List[str]
 
-def calculate_permission_delta(old_perms: list, new_perms: list) -> dict:
-    sneak_ins = set(new_perms) - set(old_perms)
+# 3. PRIVACY GLOSSARY (Your "Plain English" Engine)
+PRIVACY_GLOSSARY = {
+    "microphone": "Can listen to your room in the background. High risk for apps that don't need voice features.",
+    "camera": "Can access your lens at any time. Potential for unauthorized photo/video capture.",
+    "precise_location": "Tracks your exact GPS coordinates within 3 feet. Drains battery and maps your daily routine.",
+    "contacts": "Uploads your friend list to their servers. Used to track people you know who aren't even on the app.",
+    "storage": "Can read your personal photos and private files. Massive risk for identity or data theft.",
+    "notifications": "Can send alerts to your lock screen. Low privacy risk, but high 'annoyance' factor.",
+    "internet": "Required for the app to function, but also used to send your data back to company servers."
+}
+
+# 4. MOCK DATABASE (For Demoing while Person 1/2 finish their logic)
+MOCK_APPS = {
+    "TikTok": {"score": 28, "risk": "Critical", "perms": ["microphone", "precise_location", "contacts", "camera"]},
+    "Flashlight Plus": {"score": 12, "risk": "Extreme", "perms": ["precise_location", "camera", "storage", "contacts"]},
+    "Spotify": {"score": 74, "risk": "Low", "perms": ["microphone", "storage", "notifications"]},
+    "Instagram": {"score": 42, "risk": "High", "perms": ["camera", "microphone", "precise_location", "contacts"]},
+    "Google Maps": {"score": 55, "risk": "Medium", "perms": ["precise_location", "notifications", "internet"]}
+}
+
+# 5. ROUTES
+@app.get("/")
+def health_check():
+    return {"status": "PrivacyLens Online", "engine": "FastAPI"}
+
+@app.get("/app/{name}")
+def get_app_analysis(name: str):
+    """Detailed audit for a single app"""
+    # Case-insensitive lookup
+    app_key = next((k for k in MOCK_APPS if k.lower() == name.lower()), None)
     
-    results = []
-    total_penalty = 0
+    if not app_key:
+        raise HTTPException(status_code=404, detail=f"App '{name}' not found in audit database.")
     
-    for perm in sneak_ins:
-        risk_info = RISK_DICTIONARY.get(perm, {
-            "score": -5, 
-            "desc": "Unknown background tracker added."
-        })
-        
-        results.append({
-            "permission": perm,
-            "plain_english": risk_info["desc"],
-            "risk_score": risk_info["score"]
-        })
-        total_penalty += risk_info["score"]
-        
+    data = MOCK_APPS[app_key]
+    
+    # Map the technical permissions to your Plain English Glossary
+    analysis = [
+        {"permission": p, "warning": PRIVACY_GLOSSARY.get(p, "Standard access requested.")} 
+        for p in data["perms"]
+    ]
+    
     return {
-        "new_permissions_count": len(results),
-        "total_risk_penalty": total_penalty,
-        "details": results
+        "app": app_key,
+        "privacy_score": data["score"],
+        "risk_tier": data["risk"],
+        "analysis": analysis,
+        "recommendation": "Restrict permissions in Settings" if data["score"] < 50 else "Safe to use"
     }
 
-@app.get("/api/v1/timeline/{app_name}", response_model=TimelineResponse)
-async def get_app_timeline(app_name: str):
-    if app_name.lower() == "tiktok":
-        tiktok_2020 = ["INTERNET", "CAMERA", "RECORD_AUDIO", "WAKE_LOCK"]
-        tiktok_2026 = ["INTERNET", "CAMERA", "RECORD_AUDIO", "WAKE_LOCK", 
-                       "ACCESS_FINE_LOCATION", "READ_CONTACTS", "ACTIVITY_RECOGNITION"]
-        
-        delta_data = calculate_permission_delta(tiktok_2020, tiktok_2026)
-        
-        return {
-            "app_name": "TikTok",
-            "new_permissions_count": delta_data["new_permissions_count"],
-            "total_risk_penalty": delta_data["total_risk_penalty"],
-            "details": delta_data["details"]
-        }
+@app.get("/compare/{app1}/{app2}")
+def compare_apps(app1: str, app2: str):
+    """Side-by-side comparison for the UI"""
+    res1 = MOCK_APPS.get(app1, {"score": 50})
+    res2 = MOCK_APPS.get(app2, {"score": 50})
     
-    raise HTTPException(status_code=404, detail="Historical data not found for this app. Try 'tiktok' for the demo.")
+    winner = app1 if res1["score"] >= res2["score"] else app2
+    
+    return {
+        "winner": winner,
+        "comparison": {
+            app1: res1["score"],
+            app2: res2["score"]
+        },
+        "verdict": f"{winner} is significantly more private for your data."
+    }
 
-@app.post("/api/v1/audit")
-async def run_phone_audit(request: AuditRequest):
+@app.post("/audit")
+def full_phone_audit(request: AuditRequest):
+    """The 'Bulk Upload' feature for the dashboard"""
     results = []
+    total_score = 0
     
     for app_name in request.apps:
-        clean_name = app_name.lower().strip()
-        
-        doc_ref = db.collection("apps").document(clean_name)
-        doc = doc_ref.get()
-        
-        if doc.exists:
-            results.append(doc.to_dict())
-        else:
-            new_app_data = {
-                "app_name": app_name,
-                "privacy_score": 75,
-                "permissions_count": 12,
-                "creepy_flags": ["Reads Contacts", "Background Location"]
-            }
-            
-            doc_ref.set(new_app_data)
-            results.append(new_app_data)
-            
+        app_data = MOCK_APPS.get(app_name, {"score": 50, "risk": "Unknown"})
+        results.append({"name": app_name, "score": app_data["score"], "risk": app_data["risk"]})
+        total_score += app_data["score"]
+    
+    avg_score = total_score / len(request.apps) if request.apps else 0
+    
     return {
-        "apps_scanned": len(results),
-        "audit_results": results
+        "overall_health": round(avg_score),
+        "total_scanned": len(request.apps),
+        "breakdown": results
+    }
+
+@app.get("/timeline/{name}")
+def privacy_time_machine(name: str):
+    """The 'Innovation Award' feature: Tracking permission creep over time"""
+    return {
+        "app": name,
+        "history": [
+            {"year": 2020, "perms": 5, "event": "Initial Release"},
+            {"year": 2022, "perms": 12, "event": "Ad-Network Integration"},
+            {"year": 2024, "perms": 18, "event": "Background Tracking Added"},
+            {"year": 2026, "perms": 23, "event": "Current Version"}
+        ]
     }
