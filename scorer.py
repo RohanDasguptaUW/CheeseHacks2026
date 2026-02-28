@@ -211,18 +211,14 @@ def classify_permissions(permissions):
 # ============================================
 
 def get_score_label(score):
-    if score >= 80:
-        return {"label": "Safe", "color": "green",
-                "emoji": "✅"}
-    elif score >= 60:
-        return {"label": "Moderate Risk",
-                "color": "yellow", "emoji": "⚠️"}
-    elif score >= 40:
-        return {"label": "High Risk",
-                "color": "orange", "emoji": "🔶"}
+    if score >= 75:
+        return {"label": "Safe", "color": "green", "emoji": "✅"}
+    elif score >= 55:
+        return {"label": "Moderate Risk", "color": "yellow", "emoji": "⚠️"}
+    elif score >= 30:
+        return {"label": "High Risk", "color": "orange", "emoji": "🔶"}
     else:
-        return {"label": "Dangerous",
-                "color": "red", "emoji": "🚨"}
+        return {"label": "Dangerous", "color": "red", "emoji": "🚨"}
 
 
 # ============================================
@@ -442,4 +438,48 @@ def full_app_analysis(app_data):
         )
     }
 
+    return result
+
+# ============================================
+# SECTION 10: BRIDGE FUNCTION
+# Connects Person 1's data_fetcher output
+# directly into our scoring pipeline
+# ============================================
+
+def analyze_from_fetcher(fetcher_result: dict) -> dict:
+    """
+    Takes the raw output from Person 1's get_app_data()
+    and runs it through our full analysis pipeline.
+    
+    This is the main function Person 4's Flask 
+    backend should call.
+    """
+    # Extract just the permission names as strings
+    permission_names = [
+        p["label"] for p in fetcher_result.get("permissions", [])
+    ]
+    
+    # Extract tracker names as strings
+    tracker_names = [
+        t["name"] for t in fetcher_result.get("trackers", [])
+    ]
+    
+    # Build app_data in our expected format
+    app_data = {
+        "name": fetcher_result["app_name"],
+        "permissions": permission_names,
+        "trackers": tracker_names,
+        "category": "general",  # Person 1 doesn't provide category
+        "version_history": []   # Person 1 doesn't provide history yet
+    }
+    
+    # Run through our full analysis
+    result = full_app_analysis(app_data)
+    
+    # Add Person 1's raw data for reference
+    result["package_name"] = fetcher_result.get("package_name")
+    result["source"] = fetcher_result.get("source")
+    result["raw_permissions"] = fetcher_result.get("permissions", [])
+    result["raw_trackers"] = fetcher_result.get("trackers", [])
+    
     return result
