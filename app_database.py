@@ -201,7 +201,7 @@ APP_DATABASE = {
         "tracker_count": 2,
         "permission_count": 5,
         "category": "productivity"
-    },
+    }
     "facebook": {
     "app_name": "Facebook",
     "package_name": "com.facebook.katana",

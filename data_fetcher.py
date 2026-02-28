@@ -341,21 +341,18 @@ def get_app_data(app_name: str) -> dict:
     """
     Fetch permissions + trackers for a single app.
 
-    1. Checks app_database (known apps, instant).
-    2. Checks disk cache.
-    3. Tries Exodus Privacy API (using package name lookup).
-    4. Falls back to Google Play Store scraper.
-    5. Returns a not-found sentinel if all fail.
+    1. Checks disk cache.
+    2. Tries Exodus Privacy API.
+    3. Falls back to Google Play Store scraper.
+    4. Returns a not-found sentinel if both fail.
 
     Results are persisted to cache/app_data.json so repeat calls are instant.
+    Note: known-app database lookup is handled by app_database.get_app_data(),
+    which calls this function only for apps not in its local database.
     """
-    from app_database import APP_DATABASE
+    cache = _load_cache()
     key = app_name.lower().strip()
 
-    if key in APP_DATABASE:
-        return APP_DATABASE[key]
-
-    cache = _load_cache()
     if key in cache:
         result = dict(cache[key])
         result["cached"] = True
