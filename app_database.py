@@ -202,6 +202,110 @@ APP_DATABASE = {
         "permission_count": 5,
         "category": "productivity"
     }
+    "facebook": {
+    "app_name": "Facebook",
+    "package_name": "com.facebook.katana",
+    "source": "exodus",
+    "permissions": [
+        {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+        {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+        {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+        {"name": "android.permission.READ_CALL_LOG", "label": "Call Log", "risk": "high"},
+        {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+        {"name": "android.permission.READ_SMS", "label": "Read SMS", "risk": "high"},
+        {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+    ],
+    "trackers": [
+        {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        {"name": "Facebook Analytics", "website": "facebook.com", "categories": ["Analytics"]},
+        {"name": "Facebook Login", "website": "facebook.com", "categories": ["Identification"]},
+        {"name": "Facebook Places", "website": "facebook.com", "categories": ["Location"]},
+    ],
+    "tracker_count": 4,
+    "permission_count": 9,
+    "category": "social_media"
+},
+"discord": {
+    "app_name": "Discord",
+    "package_name": "com.discord",
+    "source": "exodus",
+    "permissions": [
+        {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+        {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+        {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+    ],
+    "trackers": [
+        {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        {"name": "Sentry", "website": "sentry.io", "categories": ["Crash reporting"]},
+    ],
+    "tracker_count": 2,
+    "permission_count": 5,
+    "category": "social_media"
+},
+"venmo": {
+    "app_name": "Venmo",
+    "package_name": "com.venmo",
+    "source": "exodus",
+    "permissions": [
+        {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+        {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+        {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+        {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+    ],
+    "trackers": [
+        {"name": "Braze", "website": "braze.com", "categories": ["Marketing"]},
+        {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+    ],
+    "tracker_count": 3,
+    "permission_count": 5,
+    "category": "finance"
+},
+"zoom": {
+    "app_name": "Zoom",
+    "package_name": "us.zoom.videomeetings",
+    "source": "exodus",
+    "permissions": [
+        {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+        {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+        {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+        {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+    ],
+    "trackers": [
+        {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        {"name": "Amplitude", "website": "amplitude.com", "categories": ["Analytics"]},
+    ],
+    "tracker_count": 2,
+    "permission_count": 5,
+    "category": "productivity"
+},
+"doordash": {
+    "app_name": "DoorDash",
+    "package_name": "com.dd.doordash",
+    "source": "exodus",
+    "permissions": [
+        {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+        {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+        {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+    ],
+    "trackers": [
+        {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+        {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        {"name": "Braze", "website": "braze.com", "categories": ["Marketing"]},
+        {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+    ],
+    "tracker_count": 4,
+    "permission_count": 5,
+    "category": "shopping"
+}
 }
 
 def get_app_data(app_name: str) -> dict:
