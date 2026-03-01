@@ -1582,5 +1582,69 @@
     "cached": false,
     "fetched_at": "2026-03-01T07:05:18.335458+00:00",
     "error": "No data found for 'OneDrive' in Exodus or Google Play."
+  },
+  "facetime": {
+    "app_name": "Facetime for Android",
+    "package_name": "com.facetime.facetimevideocall12",
+    "source": "google_play",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T08:38:12.543678+00:00",
+    "error": null,
+    "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
+  },
+  "outlook": {
+    "app_name": "Microsoft Outlook",
+    "package_name": "com.microsoft.office.outlook",
+    "source": "google_play",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T09:22:26.421444+00:00",
+    "error": null,
+    "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
+  },
+  "slack": {
+    "app_name": "Slack",
+    "package_name": null,
+    "source": "not_found",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T10:35:46.976568+00:00",
+    "error": "No data found for 'Slack' in Exodus or Google Play."
+  },
+  "icloud drive": {
+    "app_name": "iSync: Access to iCloud",
+    "package_name": "com.appcollection.isync_contacts",
+    "source": "google_play",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T10:39:26.294545+00:00",
+    "error": null,
+    "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
+  },
+  "garageb...": {
+    "app_name": "BandLab \u2013 Music Making Studio",
+    "package_name": "com.bandlab.bandlab",
+    "source": "google_play",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T15:45:43.573272+00:00",
+    "error": null,
+    "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
   }
 }

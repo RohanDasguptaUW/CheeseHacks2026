@@ -164,8 +164,8 @@ export default function Home() {
           gap: "12px", marginBottom: "2rem"
         }}>
           {[
-            { number: "6+", label: "Apps in database" },
-            { number: "20+", label: "Permissions tracked" },
+            { number: "1000+", label: "Apps in database" },
+            { number: "30+", label: "Permissions tracked" },
             { number: "100%", label: "Free to use" },
           ].map((stat, i) => (
             <div key={i} style={{
