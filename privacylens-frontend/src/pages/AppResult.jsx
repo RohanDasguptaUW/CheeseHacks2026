@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import AnimatedScore from "../components/AnimatedScore"
 import TrackerBadge from "../components/TrackerBadge"
+import { useRef } from "react"
 
 const tierConfig = {
   HIGH: { color: "var(--red)", bg: "rgba(229,57,53,0.08)", border: "rgba(229,57,53,0.2)", label: "High risk" },
@@ -23,6 +24,7 @@ export default function AppResult() {
   const [error, setError] = useState(null)
   const [appIcon, setAppIcon] = useState(null)
   const [description, setDescription] = useState(null)
+  const [generatingPdf, setGeneratingPdf] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:8001/app/${appName}`)
@@ -166,19 +168,42 @@ export default function AppResult() {
         </div>
       </div>
 
-      {/* Guilt Trip */}
+      {/* Guilt Trip — Hero Banner */}
       {app.guilt_trip && (
         <div className="fade-up-delay-1" style={{
-          background: "var(--surface)", border: "1px solid var(--border)",
-          borderRadius: "16px", padding: "1.5rem", marginBottom: "1rem",
-          borderLeft: "4px solid var(--red)"
+          background: "rgba(229,57,53,0.06)",
+          border: "1.5px solid rgba(229,57,53,0.3)",
+          borderRadius: "16px", padding: "1.75rem", marginBottom: "1rem",
         }}>
-          <h2 style={{ fontSize: "1rem", fontWeight: 600, marginBottom: "8px", color: "var(--red)" }}>
-            ⚠️ What this means for you
-          </h2>
-          <p style={{ color: "var(--text)", fontSize: "0.9rem", lineHeight: 1.7 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+            <span style={{ fontSize: "1.4rem" }}>⚠️</span>
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--red)", margin: 0 }}>
+              What {app.app_name} is doing right now
+            </h2>
+          </div>
+          <p style={{
+            color: "var(--text)", fontSize: "1.05rem", lineHeight: 1.8,
+            fontWeight: 500, letterSpacing: "-0.01em"
+          }}>
             {app.guilt_trip}
           </p>
+          {/* Specific permission callouts */}
+          {highRiskPerms.length > 0 && (
+            <div style={{
+              marginTop: "1rem", display: "flex", gap: "8px", flexWrap: "wrap"
+            }}>
+              {highRiskPerms.map((p, i) => (
+                <span key={i} style={{
+                  padding: "5px 12px", borderRadius: "100px",
+                  background: "rgba(229,57,53,0.12)",
+                  border: "1px solid rgba(229,57,53,0.25)",
+                  color: "var(--red)", fontSize: "0.8rem", fontWeight: 600
+                }}>
+                  🔴 {p.permission}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
