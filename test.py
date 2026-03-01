@@ -1,35 +1,24 @@
-from app_database import get_app_data, get_batch_data
 from scorer import analyze_from_fetcher
-from gemini_helper import generate_guilt_trip
+from app_database import get_app_data, get_batch_data
+from gemini_helper import generate_guilt_trip, scan_apps_from_image
 
 print("=== TIKTOK ANALYSIS ===")
 tiktok_raw = get_app_data("TikTok")
 result = analyze_from_fetcher(tiktok_raw)
 print(f"Score: {result['privacy_score']}/100")
 print(f"Label: {result['score_label']['label']}")
-print(f"Benchmark: {result['benchmarking']}")
 print()
 
-print("=== TOP RISKS ===")
-high_risks = [p for p in result['permissions']
-              if p['tier'] == 'HIGH']
-for p in high_risks[:3]:
-    print(f"🔴 {p['permission']}: {p['plain_english']}")
+print("=== PHONE SCREENSHOT SCAN ===")
+apps_found = scan_apps_from_image("test_screenshot.jpeg")
+print(f"Apps detected: {apps_found}")
 print()
 
-print("=== BATCH TEST ===")
-batch = get_batch_data(["Signal", "Instagram", "WhatsApp"])
-for app_name, raw in batch.items():
-    analysis = analyze_from_fetcher(raw)
-    print(f"{app_name}: {analysis['privacy_score']}/100 "
-          f"({analysis['score_label']['label']})")
-print()
-
-print("=== GEMINI GUILT TRIP ===")
-guilt = generate_guilt_trip(
-    result['app_name'],
-    [p['permission'] for p in result['permissions']],
-    result['raw_trackers'],
-    result['privacy_score']
-)
-print(guilt)
+print("=== SCORING EACH APP ===")
+for app_name in apps_found:
+    raw = get_app_data(app_name)
+    result = analyze_from_fetcher(raw)
+    score = result['privacy_score']
+    label = result['score_label']['label']
+    emoji = result['score_label']['emoji']
+    print(f"{emoji} {app_name}: {score}/100 - {label}")

@@ -483,3 +483,76 @@ def analyze_from_fetcher(fetcher_result: dict) -> dict:
     result["raw_trackers"] = fetcher_result.get("trackers", [])
     
     return result
+
+def analyze_phone_screenshot(image_path: str) -> dict:
+    """
+    Master function — takes a screenshot path
+    Returns complete phone privacy report
+    This is what Person 4's Flask route calls
+    """
+    from gemini_helper import scan_apps_from_image
+    from app_database import get_app_data
+    
+    # Step 1: Extract app names from image
+    print("Scanning image for apps...")
+    app_names = scan_apps_from_image(image_path)
+    
+    if not app_names:
+        return {"error": "No apps found in image"}
+    
+    # Step 2: Score every app found
+    results = []
+    for app_name in app_names:
+        raw = get_app_data(app_name)
+        analysis = analyze_from_fetcher(raw)
+        results.append(analysis)
+    
+    # Step 3: Generate phone-level summary
+    total = len(results)
+    dangerous = sum(
+        1 for r in results 
+        if r['privacy_score'] < 30
+    )
+    high_risk = sum(
+        1 for r in results 
+        if 30 <= r['privacy_score'] < 55
+    )
+    safe = sum(
+        1 for r in results 
+        if r['privacy_score'] >= 75
+    )
+    phone_score = sum(
+        r['privacy_score'] for r in results
+    ) // max(total, 1)
+    
+    # Step 4: Find the scariest app
+    scariest = min(
+        results, 
+        key=lambda x: x['privacy_score']
+    )
+    
+    # Step 5: Generate overall phone guilt trip
+    from gemini_helper import generate_guilt_trip
+    phone_guilt = generate_guilt_trip(
+        f"your phone ({total} apps)",
+        [p['permission'] 
+         for r in results 
+         for p in r['permissions'] 
+         if p['tier'] == 'HIGH'],
+        [],
+        phone_score
+    )
+    
+    return {
+        "phone_score": phone_score,
+        "phone_label": get_score_label(phone_score),
+        "total_apps_scanned": total,
+        "dangerous_count": dangerous,
+        "high_risk_count": high_risk,
+        "safe_count": safe,
+        "scariest_app": scariest['app_name'],
+        "scariest_score": scariest['privacy_score'],
+        "apps": results,
+        "phone_guilt_trip": phone_guilt,
+        "apps_found": app_names
+    }

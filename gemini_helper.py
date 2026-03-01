@@ -42,3 +42,52 @@ def analyze_privacy_policy(policy_text):
         contents=prompt
     )
     return response.text
+
+def scan_apps_from_image(image_path: str) -> list:
+    """
+    Takes a screenshot of phone app drawer
+    Returns list of app names found in image
+    Uses Gemini Vision - no extra setup needed!
+    """
+    import base64
+    
+    # Read and encode the image
+    with open(image_path, "rb") as image_file:
+        image_data = base64.b64encode(
+            image_file.read()
+        ).decode("utf-8")
+    
+    # Ask Gemini to read all app names from image
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[
+            {
+                "parts": [
+                    {
+                        "inline_data": {
+                            "mime_type": "image/jpeg",
+                            "data": image_data
+                        }
+                    },
+                    {
+                        "text": """
+                        Look at this screenshot of a phone.
+                        List ONLY the app names you can see.
+                        Return them as a simple comma separated 
+                        list with nothing else.
+                        Example: TikTok, Instagram, Spotify
+                        Do not include any other text.
+                        """
+                    }
+                ]
+            }
+        ]
+    )
+    
+    # Parse comma separated response into list
+    raw = response.text.strip()
+    apps = [app.strip() for app in raw.split(",")]
+    apps = [app for app in apps if len(app) > 1]
+    
+    print(f"[Vision] Found apps: {apps}")
+    return apps
