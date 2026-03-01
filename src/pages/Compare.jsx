@@ -104,6 +104,7 @@ export default function Compare() {
           <span style={{ color: "var(--green)" }}>{winner.app_name}</span> is {Math.abs(appA.privacyScore - appB.privacyScore)} points safer than{" "}
           <span style={{ color: "var(--red)" }}>{winner.app_name === appA.app_name ? appB.app_name : appA.app_name}</span>
         </p>
+        
       </div>
     </div>
   )
