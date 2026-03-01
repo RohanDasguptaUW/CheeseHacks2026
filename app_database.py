@@ -654,6 +654,321 @@ APP_DATABASE = {
         "permission_count": 3,
         "category": "gaming"
     },
+"imovie": {
+        "app_name": "iMovie",
+        "package_name": "com.apple.iMovie",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 4,
+        "category": "creative"
+    },
+    "keynote": {
+        "app_name": "Keynote",
+        "package_name": "com.apple.Keynote",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 3,
+        "category": "productivity"
+    },
+    "numbers": {
+        "app_name": "Numbers",
+        "package_name": "com.apple.Numbers",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 2,
+        "category": "productivity"
+    },
+    "pages": {
+        "app_name": "Pages",
+        "package_name": "com.apple.Pages",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 2,
+        "category": "productivity"
+    },
+    "genshin impact": {
+        "app_name": "Genshin Impact",
+        "package_name": "com.miHoYo.GenshinImpact",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+            {"name": "android.permission.READ_PHONE_STATE", "label": "Phone Identity (IMEI)", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 5,
+        "category": "gaming"
+    },
+    "teams": {
+        "app_name": "Teams",
+        "package_name": "com.microsoft.teams",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Microsoft Analytics", "website": "microsoft.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 6,
+        "category": "productivity"
+    },
+    "sharepoint": {
+        "app_name": "SharePoint",
+        "package_name": "com.microsoft.sharepoint",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Microsoft Analytics", "website": "microsoft.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 4,
+        "category": "productivity"
+    },
+    "docs": {
+        "app_name": "Google Docs",
+        "package_name": "com.google.android.apps.docs.editors.docs",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 5,
+        "category": "productivity"
+    },
+    "news": {
+        "app_name": "News",
+        "package_name": "com.apple.news",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Comscore", "website": "comscore.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 2,
+        "category": "news"
+    },
+    "hay day": {
+        "app_name": "Hay Day",
+        "package_name": "com.supercell.hayday",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "ironSource", "website": "ironsource.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 3,
+        "category": "gaming"
+    },
+    "nyt games": {
+        "app_name": "NYT Games",
+        "package_name": "com.nytimes.wordle",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 1,
+        "category": "gaming"
+    },
+    "pocket camp": {
+        "app_name": "Pocket Camp C",
+        "package_name": "com.nintendo.zaka",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Nintendo Analytics", "website": "nintendo.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "gaming"
+    },
+    "pocket camp c": {
+        "app_name": "Pocket Camp C",
+        "package_name": "com.nintendo.zaka",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Nintendo Analytics", "website": "nintendo.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "gaming"
+    },
+    "ibispaint x": {
+        "app_name": "ibisPaint X",
+        "package_name": "jp.ne.ibis.ibispaintx.app",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Unity Ads", "website": "unity.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 3,
+        "category": "creative"
+    },
+    "goodreads": {
+        "app_name": "Goodreads",
+        "package_name": "com.goodreads",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Amazon Analytics", "website": "amazon.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 3,
+        "category": "entertainment"
+    },
+    "words with friends": {
+        "app_name": "Words With Friends",
+        "package_name": "com.zynga.words",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "ironSource", "website": "ironsource.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 4,
+        "category": "gaming"
+    },
+    "toca life": {
+        "app_name": "Toca Life",
+        "package_name": "com.tocaboca.tocaworld",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 2,
+        "category": "gaming"
+    },
+    "desmos": {
+        "app_name": "Desmos",
+        "package_name": "com.desmos.calculator",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 1,
+        "category": "productivity"
+    },
+    "focusflight": {
+        "app_name": "FocusFlight",
+        "package_name": "com.focusflight.app",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 3,
+        "category": "utilities"
+    },
 "doordash": {
     "app_name": "DoorDash",
     "package_name": "com.dd.doordash",
@@ -674,8 +989,358 @@ APP_DATABASE = {
     "tracker_count": 4,
     "permission_count": 5,
     "category": "shopping"
+},
+"google calendar": {
+        "app_name": "Google Calendar",
+        "package_name": "com.google.android.calendar",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 4,
+        "category": "productivity"
+    },
+    "settings": {
+        "app_name": "Settings",
+        "package_name": "com.android.settings",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.READ_PHONE_STATE", "label": "Phone Identity (IMEI)", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 4,
+        "category": "utilities"
+    },
+    "settings app": {
+        "app_name": "Settings App",
+        "package_name": "com.android.settings",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.READ_PHONE_STATE", "label": "Phone Identity (IMEI)", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 4,
+        "category": "utilities"
+    },
+    "yahoo mail": {
+        "app_name": "Yahoo Mail",
+        "package_name": "com.yahoo.mobile.client.android.mail",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Yahoo Analytics", "website": "yahoo.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Flurry", "website": "flurry.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 6,
+        "category": "productivity"
+    },
+    "youtube music": {
+        "app_name": "YouTube Music",
+        "package_name": "com.google.android.apps.youtube.music",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Google Ads", "website": "google.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 4,
+        "category": "entertainment"
+    },
+    "google messages": {
+        "app_name": "Google Messages",
+        "package_name": "com.google.android.apps.messaging",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_SMS", "label": "Read SMS", "risk": "high"},
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 6,
+        "category": "productivity"
+    },
+    "files by google": {
+        "app_name": "Files by Google",
+        "package_name": "com.google.android.apps.nbu.files",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "utilities"
+    },
+    "google photos": {
+        "app_name": "Google Photos",
+        "package_name": "com.google.android.apps.photos",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 5,
+        "category": "utilities"
+    },
+    "samsung notes": {
+        "app_name": "Samsung Notes",
+        "package_name": "com.samsung.android.app.notes",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Samsung Analytics", "website": "samsung.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 4,
+        "category": "productivity"
+    },
+    "sketchbook": {
+        "app_name": "Sketchbook",
+        "package_name": "com.adsk.sketchbook",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Adjust", "website": "adjust.com", "categories": ["Attribution"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "creative"
+    },
+    "google play books": {
+        "app_name": "Google Play Books",
+        "package_name": "com.google.android.apps.books",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "entertainment"
+    },
+    "google play books & audiobooks": {
+        "app_name": "Google Play Books & Audiobooks",
+        "package_name": "com.google.android.apps.books",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "entertainment"
+    },
+    "my little universe": {
+        "app_name": "My Little Universe",
+        "package_name": "com.SayGames.MyLittleUniverse",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Unity Ads", "website": "unity.com", "categories": ["Ads"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 3,
+        "category": "gaming"
+    },
+    "3d calculator": {
+        "app_name": "3D Calculator",
+        "package_name": "com.numworks.calculator",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 1,
+        "category": "productivity"
+    },
+    "camera for android": {
+        "app_name": "Camera for Android",
+        "package_name": "com.google.android.GoogleCamera",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 5,
+        "category": "utilities"
+    },
+    "daze": {
+        "app_name": "Daze",
+        "package_name": "com.daze.app",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 4,
+        "category": "social_media"
+    },
+    "daze - freeform chat": {
+        "app_name": "Daze - Freeform Chat",
+        "package_name": "com.daze.app",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 4,
+        "category": "social_media"
+    },
+    "savannah browser": {
+        "app_name": "Savannah Browser",
+        "package_name": "com.savannah.browser",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 4,
+        "category": "utilities"
+    },
+    "simple flashcards plus": {
+        "app_name": "Simple Flashcards Plus",
+        "package_name": "com.simple.flashcards",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 2,
+        "category": "productivity"
+    },
+    "offline games - no wifi games": {
+        "app_name": "Offline Games",
+        "package_name": "com.gamegames.offlinegames",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Unity Ads", "website": "unity.com", "categories": ["Ads"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "ironSource", "website": "ironsource.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 2,
+        "category": "gaming"
+    },
 }
-}
+
+
+
 
 def get_app_data(app_name: str) -> dict:
     """

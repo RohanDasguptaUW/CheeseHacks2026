@@ -1394,5 +1394,43 @@
     "fetched_at": "2026-03-01T06:44:17.221526+00:00",
     "error": null,
     "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
+  },
+  "procreate": {
+    "app_name": "Sketchbook",
+    "package_name": "com.adsk.sketchbook",
+    "source": "google_play",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T06:50:31.121984+00:00",
+    "error": null,
+    "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
+  },
+  "my little universe": {
+    "app_name": "My Little Universe",
+    "package_name": null,
+    "source": "not_found",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T06:50:32.139797+00:00",
+    "error": "No data found for 'My Little Universe' in Exodus or Google Play."
+  },
+  "flashcards+": {
+    "app_name": "Simple Flashcards Plus",
+    "package_name": "com.randomappsinc.simpleflashcards",
+    "source": "google_play",
+    "permissions": [],
+    "trackers": [],
+    "tracker_count": 0,
+    "permission_count": 0,
+    "cached": false,
+    "fetched_at": "2026-03-01T06:52:23.244165+00:00",
+    "error": null,
+    "note": "Tracker data unavailable \u2014 app not indexed by Exodus Privacy"
   }
 }
