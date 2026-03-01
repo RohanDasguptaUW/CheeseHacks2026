@@ -53,10 +53,44 @@ HEADERS = {
 
 REQUEST_TIMEOUT = 10  # seconds
 
+# ── Known package names ────────────────────────────────────────────────────────
+# Hardcoded to avoid relying on Play Store scraper for common apps
+
+KNOWN_PACKAGES = {
+    "tiktok":         "com.zhiliaoapp.musically",
+    "instagram":      "com.instagram.android",
+    "whatsapp":       "com.whatsapp",
+    "snapchat":       "com.snapchat.android",
+    "facebook":       "com.facebook.katana",
+    "youtube":        "com.google.android.youtube",
+    "spotify":        "com.spotify.music",
+    "telegram":       "org.telegram.messenger",
+    "signal":         "org.thoughtcrime.securesms",
+    "discord":        "com.discord",
+    "uber":           "com.ubercab",
+    "gmail":          "com.google.android.gm",
+    "chrome":         "com.android.chrome",
+    "zoom":           "us.zoom.videomeetings",
+    "twitter":        "com.twitter.android",
+    "x":              "com.twitter.android",
+    "netflix":        "com.netflix.mediaclient",
+    "doordash":       "com.dd.doordash",
+    "venmo":          "com.venmo",
+    "amazon":         "com.amazon.mShop.android.shopping",
+    "amazon music":   "com.amazon.mp3",
+    "linkedin":       "com.linkedin.android",
+    "pinterest":      "com.pinterest",
+    "reddit":         "com.reddit.frontpage",
+    "google maps":    "com.google.android.apps.maps",
+    "maps":           "com.google.android.apps.maps",
+    "google photos":  "com.google.android.apps.photos",
+    "cash app":       "com.squareup.cash",
+    "paypal":         "com.paypal.android.p2pmobile",
+    "microsoft teams":"com.microsoft.teams",
+    "outlook":        "com.microsoft.office.outlook",
+}
+
 # ── Permission metadata ────────────────────────────────────────────────────────
-# Maps Android permission constant → human label + risk tier.
-# Person 2 uses "risk" + "weight" for scoring; weights are stored here so the
-# two modules stay in sync.  Add more as needed.
 
 PERMISSION_META: dict[str, dict] = {
     "android.permission.RECORD_AUDIO":           {"label": "Microphone",            "risk": "high",   "weight": -20},
@@ -83,7 +117,6 @@ PERMISSION_META: dict[str, dict] = {
     "android.permission.FOREGROUND_SERVICE":     {"label": "Foreground Service",    "risk": "low",    "weight": -1},
 }
 
-# Keywords for inferring risk when Exodus returns human-readable strings (Play fallback)
 _HIGH_KEYWORDS   = ["microphone", "location", "camera", "contact", "sms", "call", "phone", "biometric", "account"]
 _MEDIUM_KEYWORDS = ["storage", "file", "bluetooth", "sensor", "activity", "identity"]
 
@@ -107,7 +140,6 @@ def _save_cache(cache: dict) -> None:
 
 
 def clear_cache() -> None:
-    """Wipe the on-disk cache (useful during testing)."""
     if os.path.exists(CACHE_FILE):
         os.remove(CACHE_FILE)
         print("[cache] Cleared.")
@@ -118,17 +150,14 @@ def clear_cache() -> None:
 # ── Permission helpers ─────────────────────────────────────────────────────────
 
 def _enrich_permission(raw: str) -> dict:
-    """Turn a raw Android permission string into a labelled, risk-rated dict."""
     meta = PERMISSION_META.get(raw)
     if meta:
         return {"name": raw, "label": meta["label"], "risk": meta["risk"]}
-    # Fallback: derive label from the constant name itself
     label = raw.split(".")[-1].replace("_", " ").title()
     return {"name": raw, "label": label, "risk": "low"}
 
 
 def _infer_risk_from_label(label: str) -> str:
-    """Infer risk tier from a human-readable permission string (Play Store fallback)."""
     low = label.lower()
     if any(kw in low for kw in _HIGH_KEYWORDS):
         return "high"
@@ -140,22 +169,36 @@ def _infer_risk_from_label(label: str) -> str:
 # ── Exodus Privacy API ─────────────────────────────────────────────────────────
 
 def _get_package_name(app_name: str) -> Optional[str]:
-    """Use Google Play scraper to find the package name for an app name."""
+    """
+    Get package name for an app.
+    1. Check hardcoded KNOWN_PACKAGES first
+    2. Fall back to google-play-scraper
+    """
+    # Check hardcoded list first (fast + reliable)
+    key = app_name.lower().strip()
+    if key in KNOWN_PACKAGES:
+        print(f"[Packages] Found '{app_name}' in known packages")
+        return KNOWN_PACKAGES[key]
+
+    # Fall back to scraper for unknown apps
     try:
         from google_play_scraper import search
-        results = search(app_name, n_hits=1, lang="en", country="us")
+        results = search(app_name, n_hits=3,
+                        lang="en", country="us")
         if results:
-            return results[0].get("appId")
+            for result in results:
+                pkg = (result.get("appId") or
+                       result.get("app_id") or
+                       result.get("packageName"))
+                if pkg:
+                    print(f"[Packages] Scraped package: {pkg}")
+                    return pkg
     except Exception as e:
         print(f"[Play scraper error] {e}")
     return None
 
 
 def _exodus_search(query: str) -> Optional[dict]:
-    """
-    Search Exodus using package name (not app name).
-    Uses google-play-scraper to resolve app name → package name first.
-    """
     package_name = _get_package_name(query)
     if not package_name:
         print(f"[Exodus] Could not find package for '{query}'")
@@ -172,7 +215,6 @@ def _exodus_search(query: str) -> Optional[dict]:
         print(f"[Exodus search error] {e}")
         return None
 
-    # Exodus returns {package_name: {app_data}} when searched by package
     if isinstance(data, dict):
         apps = list(data.values())
         if apps:
@@ -184,7 +226,6 @@ def _exodus_search(query: str) -> Optional[dict]:
 
 
 def _exodus_latest_report(handle: str) -> Optional[dict]:
-    """Fetch the latest analysis report for a package handle from Exodus."""
     url = EXODUS_REPORTS.format(handle=handle)
     try:
         res = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
@@ -197,11 +238,10 @@ def _exodus_latest_report(handle: str) -> Optional[dict]:
     reports = data.get("reports") or (data if isinstance(data, list) else [])
     if not reports:
         return None
-    return reports[0]  # most recent first
+    return reports[0]
 
 
 def _fetch_from_exodus(app_name: str) -> Optional[dict]:
-    """Full Exodus pipeline: search → latest report → clean JSON."""
     print(f"[Exodus] Searching for '{app_name}'...")
     entry = _exodus_search(app_name)
     if not entry:
@@ -210,7 +250,6 @@ def _fetch_from_exodus(app_name: str) -> Optional[dict]:
     handle = entry.get("handle") or entry.get("package_name") or entry.get("app_pkg")
     name   = entry.get("name") or app_name
     if not handle:
-        print(f"[Exodus] Found entry but no package handle for '{app_name}'")
         return None
 
     print(f"[Exodus] Found '{name}' ({handle}), fetching report...")
@@ -219,7 +258,6 @@ def _fetch_from_exodus(app_name: str) -> Optional[dict]:
         print(f"[Exodus] No report available for '{handle}'")
         return None
 
-    # ── Permissions ──
     raw_perms = report.get("permissions") or []
     permissions = []
     for p in raw_perms:
@@ -230,7 +268,6 @@ def _fetch_from_exodus(app_name: str) -> Optional[dict]:
         if perm_name:
             permissions.append(_enrich_permission(perm_name))
 
-    # ── Trackers ──
     raw_trackers = report.get("trackers") or []
     trackers = []
     for t in raw_trackers:
@@ -241,7 +278,6 @@ def _fetch_from_exodus(app_name: str) -> Optional[dict]:
                 "categories": t.get("categories") or [],
             })
         else:
-            # Sometimes Exodus returns tracker IDs; keep them labelled
             trackers.append({"name": f"Tracker #{t}", "website": "", "categories": []})
 
     return {
@@ -261,15 +297,10 @@ def _fetch_from_exodus(app_name: str) -> Optional[dict]:
 # ── Google Play Store fallback ─────────────────────────────────────────────────
 
 def _fetch_from_play_store(app_name: str) -> Optional[dict]:
-    """
-    Fallback for apps not in Exodus.
-    Requires:  pip install google-play-scraper
-    Returns permissions from Play Store listing (no tracker data available here).
-    """
     try:
         from google_play_scraper import app as gps_app, search as gps_search
     except ImportError:
-        print("[Play fallback] google-play-scraper not installed — run: pip install google-play-scraper")
+        print("[Play fallback] google-play-scraper not installed")
         return None
 
     print(f"[Play Store] Searching for '{app_name}'...")
@@ -283,6 +314,10 @@ def _fetch_from_play_store(app_name: str) -> Optional[dict]:
         return None
 
     package_name = results[0].get("appId")
+    if not package_name:
+        # Try KNOWN_PACKAGES as fallback
+        key = app_name.lower().strip()
+        package_name = KNOWN_PACKAGES.get(key)
     if not package_name:
         return None
 
@@ -308,7 +343,7 @@ def _fetch_from_play_store(app_name: str) -> Optional[dict]:
         "package_name":    package_name,
         "source":          "google_play",
         "permissions":     permissions,
-        "trackers":        [],   # Play Store doesn't expose tracker data
+        "trackers":        [],
         "tracker_count":   0,
         "permission_count": len(permissions),
         "cached":          False,
@@ -338,18 +373,6 @@ def _not_found(app_name: str) -> dict:
 # ── Public API ─────────────────────────────────────────────────────────────────
 
 def get_app_data(app_name: str) -> dict:
-    """
-    Fetch permissions + trackers for a single app.
-
-    1. Checks disk cache.
-    2. Tries Exodus Privacy API.
-    3. Falls back to Google Play Store scraper.
-    4. Returns a not-found sentinel if both fail.
-
-    Results are persisted to cache/app_data.json so repeat calls are instant.
-    Note: known-app database lookup is handled by app_database.get_app_data(),
-    which calls this function only for apps not in its local database.
-    """
     cache = _load_cache()
     key = app_name.lower().strip()
 
@@ -366,16 +389,6 @@ def get_app_data(app_name: str) -> dict:
 
 
 def get_batch_data(app_names: list[str]) -> dict[str, dict]:
-    """
-    Fetch data for multiple apps at once.
-
-    Returns a dict keyed by the original app name strings.
-
-    Example:
-        results = get_batch_data(["TikTok", "Signal", "Instagram"])
-        print(results["TikTok"]["tracker_count"])   # → e.g. 9
-        print(results["Signal"]["tracker_count"])   # → e.g. 0
-    """
     return {name: get_app_data(name) for name in app_names}
 
 
