@@ -22,6 +22,7 @@ export default function AppResult() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [appIcon, setAppIcon] = useState(null)
+  const [description, setDescription] = useState(null)
 
   useEffect(() => {
     fetch(`http://localhost:8001/app/${appName}`)
@@ -47,12 +48,22 @@ export default function AppResult() {
       .catch(() => {})
   }, [app])
 
+  useEffect(() => {
+  if (!app) return
+  fetch(`http://localhost:8000/api/describe/${encodeURIComponent(app.app_name || appName)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.description) setDescription(data.description)
+    })
+    .catch(() => {})
+}, [app])
+
   if (loading) return (
     <div style={{
       minHeight: "100vh", background: "var(--bg)",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center", gap: "1rem"
-    }}>
+    }}>ƒ
       <div style={{
         width: "36px", height: "36px",
         border: "3px solid var(--border)",
@@ -170,6 +181,22 @@ export default function AppResult() {
           </p>
         </div>
       )}
+
+      {/* App Description */}
+      {description && (
+        <div className="fade-up-delay-1" style={{
+          background: "var(--surface)", border: "1px solid var(--border)",
+          borderRadius: "16px", padding: "1.5rem", marginBottom: "1rem"
+        }}>
+          <h2 style={{ fontSize: "1rem", fontWeight: 600, marginBottom: "8px" }}>
+            About this app's privacy
+          </h2>
+          <p style={{ color: "var(--text)", fontSize: "0.9rem", lineHeight: 1.7 }}>
+            {description}
+          </p>
+        </div>
+      )}
+
 
       {/* Permissions */}
       <div className="fade-up-delay-1" style={{

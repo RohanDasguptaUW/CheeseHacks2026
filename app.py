@@ -121,3 +121,22 @@ def get_icon(app_name):
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
+
+@app.route("/api/describe/<app_name>")
+def describe_app(app_name):
+    from gemini_helper import generate_app_description
+    from app_database import get_app_data
+    from scorer import calculate_score
+
+    data = get_app_data(app_name.lower())
+    if not data:
+        return jsonify({"error": "App not found"}), 404
+
+    score = calculate_score(data.get("permissions", []), data.get("trackers", []))
+    description = generate_app_description(
+        app_name,
+        data.get("permissions", []),
+        data.get("trackers", []),
+        score
+    )
+    return jsonify({"description": description})

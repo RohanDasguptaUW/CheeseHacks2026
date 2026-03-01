@@ -92,6 +92,35 @@ def scan_apps_from_image(image_path: str) -> list:
     print(f"[Vision] Found apps: {apps}")
     return apps
 
+def generate_app_description(app_name: str, permissions: list, trackers: list, score: int) -> str:
+    """
+    Generates a plain English paragraph about the app's privacy
+    """
+    permission_labels = [p.get("label", p.get("permission", "")) for p in permissions]
+    tracker_names = [t.get("name", "") for t in trackers]
+    
+    prompt = f"""
+    Write exactly 2-3 sentences about the privacy implications of the app "{app_name}" for a college student.
+    
+    Facts to use:
+    - Privacy score: {score}/100 (lower is worse)
+    - Permissions it has: {', '.join(permission_labels) if permission_labels else 'none'}
+    - Trackers it uses: {', '.join(tracker_names) if tracker_names else 'none'}
+    
+    Rules:
+    - Be specific about real world impact using the permissions and trackers listed
+    - Make it personal and slightly alarming but completely factual
+    - No bullet points, no headers, just a paragraph
+    - No technical jargon, write for a non-technical audience
+    - Do not start with "This app"
+    """
+    
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+    return response.text.strip()
+
 def generate_app_data(app_name: str) -> dict:
     """
     Uses Gemini to generate realistic privacy data for any app
