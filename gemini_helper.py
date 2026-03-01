@@ -91,3 +91,52 @@ def scan_apps_from_image(image_path: str) -> list:
     
     print(f"[Vision] Found apps: {apps}")
     return apps
+
+def generate_app_data(app_name: str) -> dict:
+    """
+    Uses Gemini to generate realistic privacy data for any app
+    """
+    prompt = f"""
+    You are a privacy researcher. Generate realistic Android privacy data for the app "{app_name}".
+    
+    Return ONLY a JSON object with this exact structure, nothing else:
+    {{
+        "app_name": "{app_name}",
+        "package_name": "the.android.package.name",
+        "permissions": [
+            {{"name": "android.permission.PERMISSION_NAME", "label": "Human Readable Name", "risk": "high|medium|low"}}
+        ],
+        "trackers": [
+            {{"name": "Tracker Name", "website": "tracker.com", "categories": ["Analytics|Ads|Attribution|Crash reporting"]}}
+        ]
+    }}
+    
+    Rules:
+    - Use real Android permission names (android.permission.X format)
+    - Only include permissions this type of app would realistically need
+    - Only include trackers this type of app would realistically use
+    - Risk levels: high for location/mic/camera/contacts, medium for storage/phone state, low for internet/boot
+    - Be accurate based on what you know about this app
+    - Return ONLY the JSON, no markdown, no explanation
+    """
+    
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+    
+    import json
+    raw = response.text.strip().replace("```json", "").replace("```", "").strip()
+    
+    try:
+        data = json.loads(raw)
+        data["source"] = "gemini"
+        data["tracker_count"] = len(data.get("trackers", []))
+        data["permission_count"] = len(data.get("permissions", []))
+        data["cached"] = False
+        data["error"] = None
+        print(f"[Gemini] Generated data for '{app_name}'")
+        return data
+    except json.JSONDecodeError:
+        print(f"[Gemini] Failed to parse response for '{app_name}': {raw}")
+        return None
