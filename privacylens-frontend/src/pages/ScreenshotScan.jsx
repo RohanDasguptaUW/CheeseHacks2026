@@ -48,64 +48,91 @@ export default function ScreenshotScan() {
   }
 
   const handleScan = async () => {
-    if (!image) return
-    setLoading(true)
-    setError(null)
+  if (!image) return
+  setLoading(true)
+  setError(null)
 
-    const formData = new FormData()
-    formData.append("image", image)
+  const formData = new FormData()
+  formData.append("image", image)
 
-    try {
-      const res = await fetch("http://localhost:8000/api/scan-screenshot", {
-        method: "POST",
-        body: formData
-      })
-      const data = await res.json()
+  try {
+    // Step 1 — port 8000 reads the screenshot and returns app names
+    const res = await fetch("http://localhost:8000/api/scan-screenshot", {
+      method: "POST",
+      body: formData
+    })
+    const data = await res.json()
 
-      if (data.error) {
-        setError(data.error)
-        setLoading(false)
-        return
-      }
-
-      // Handle all response shapes
-      let appsList = []
-
-      if (data.results && Array.isArray(data.results)) {
-        appsList = data.results
-        setAppsDetected(data.apps_detected || [])
-      } else if (Array.isArray(data)) {
-        appsList = data
-        setAppsDetected(data.map(a => a.app_name))
-      } else if (data.app_name) {
-        appsList = [data]
-        setAppsDetected([data.app_name])
-      }
-
-      if (appsList.length === 0) {
-        setError("No apps detected in screenshot")
-        setLoading(false)
-        return
-      }
-
-      const scored = appsList.map(app => {
-        const score = calculateScore(app.permissions || [], app.trackers || [])
-        const riskLevel = getRiskLevel(score)
-        return { ...app, privacyScore: score, riskLevel }
-      }).sort((a, b) => a.privacyScore - b.privacyScore)
-
-      setResults(scored)
-      if (!data.apps_detected) {
-        setAppsDetected(scored.map(a => a.app_name))
-      }
-
-    } catch (err) {
-      setError("Could not connect to server. Make sure backend is running on port 8001.")
+    if (data.error) {
+      setError(data.error)
+      setLoading(false)
+      return
     }
 
-    setLoading(false)
+    const detectedNames = data.apps_detected || []
+    if (detectedNames.length === 0) {
+      setError("No apps detected in screenshot")
+      setLoading(false)
+      return
+    }
+
+    setAppsDetected(detectedNames)
+
+    // Step 2 — for each app name, ask port 8001 for the real privacy score
+    const scored = await Promise.all(
+      detectedNames.map(async (name) => {
+        try {
+          const appRes = await fetch(`http://localhost:8001/app/${encodeURIComponent(name)}`)
+          if (!appRes.ok) throw new Error("Not found")
+          const appData = await appRes.json()
+
+          // Use privacy_score directly from port 8001
+          const score = appData.privacy_score
+          const riskLevel = getRiskLevel(score)
+
+          return {
+            app_name: appData.app_name || name,
+            privacy_score: score,
+            privacyScore: score,
+            riskLevel,
+            permissions: appData.permissions || [],
+            raw_trackers: appData.raw_trackers || [],
+            permission_count: appData.permissions?.length || 0,
+            tracker_count: appData.raw_trackers?.length || 0,
+            package_name: appData.package_name || ""
+          }
+        } catch {
+          // App not found in port 8001 — show with no data
+          return {
+            app_name: name,
+            privacy_score: undefined,
+            privacyScore: undefined,
+            riskLevel: null,
+            permissions: [],
+            raw_trackers: [],
+            permission_count: 0,
+            tracker_count: 0,
+            package_name: ""
+          }
+        }
+      })
+    )
+
+    // Sort — most dangerous (lowest score) first
+    const sorted = scored.sort((a, b) => {
+      if (a.privacy_score === undefined) return 1
+      if (b.privacy_score === undefined) return -1
+      return a.privacy_score - b.privacy_score
+    })
+
+    setResults(sorted)
+
+  } catch (err) {
+    setError("Could not connect to server. Make sure both backends are running.")
   }
 
+  setLoading(false)
+}
   useEffect(() => {
     if (!results) return
     results.forEach(app => {
