@@ -1,11 +1,16 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
+import shutil
+import os
+
+from scorer import analyze_from_fetcher
+from app_database import get_app_data
+from gemini_helper import generate_guilt_trip, scan_apps_from_image
 
 app = FastAPI(title="PrivacyLens API")
 
-# 1. FIX CORS: This allows Person 3's React app to talk to your Mac
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -14,105 +19,168 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. DATA MODELS
 class AuditRequest(BaseModel):
     apps: List[str]
 
-# 3. PRIVACY GLOSSARY (Your "Plain English" Engine)
-PRIVACY_GLOSSARY = {
-    "microphone": "Can listen to your room in the background. High risk for apps that don't need voice features.",
-    "camera": "Can access your lens at any time. Potential for unauthorized photo/video capture.",
-    "precise_location": "Tracks your exact GPS coordinates within 3 feet. Drains battery and maps your daily routine.",
-    "contacts": "Uploads your friend list to their servers. Used to track people you know who aren't even on the app.",
-    "storage": "Can read your personal photos and private files. Massive risk for identity or data theft.",
-    "notifications": "Can send alerts to your lock screen. Low privacy risk, but high 'annoyance' factor.",
-    "internet": "Required for the app to function, but also used to send your data back to company servers."
-}
-
-# 4. MOCK DATABASE (For Demoing while Person 1/2 finish their logic)
-MOCK_APPS = {
-    "TikTok": {"score": 28, "risk": "Critical", "perms": ["microphone", "precise_location", "contacts", "camera"]},
-    "Flashlight Plus": {"score": 12, "risk": "Extreme", "perms": ["precise_location", "camera", "storage", "contacts"]},
-    "Spotify": {"score": 74, "risk": "Low", "perms": ["microphone", "storage", "notifications"]},
-    "Instagram": {"score": 42, "risk": "High", "perms": ["camera", "microphone", "precise_location", "contacts"]},
-    "Google Maps": {"score": 55, "risk": "Medium", "perms": ["precise_location", "notifications", "internet"]}
-}
-
-# 5. ROUTES
 @app.get("/")
 def health_check():
-    return {"status": "PrivacyLens Online", "engine": "FastAPI"}
+    return {"status": "PrivacyLens Online"}
 
 @app.get("/app/{name}")
 def get_app_analysis(name: str):
-    """Detailed audit for a single app"""
-    # Case-insensitive lookup
-    app_key = next((k for k in MOCK_APPS if k.lower() == name.lower()), None)
-    
-    if not app_key:
-        raise HTTPException(status_code=404, detail=f"App '{name}' not found in audit database.")
-    
-    data = MOCK_APPS[app_key]
-    
-    # Map the technical permissions to your Plain English Glossary
-    analysis = [
-        {"permission": p, "warning": PRIVACY_GLOSSARY.get(p, "Standard access requested.")} 
-        for p in data["perms"]
-    ]
-    
-    return {
-        "app": app_key,
-        "privacy_score": data["score"],
-        "risk_tier": data["risk"],
-        "analysis": analysis,
-        "recommendation": "Restrict permissions in Settings" if data["score"] < 50 else "Safe to use"
-    }
+    raw = get_app_data(name)
+    if raw.get("source") == "not_found":
+        raise HTTPException(
+            status_code=404,
+            detail=f"App '{name}' not found."
+        )
+    result = analyze_from_fetcher(raw)
+    try:
+        result["guilt_trip"] = generate_guilt_trip(
+            result["app_name"],
+            [p["permission"] for p in result["permissions"]],
+            result.get("raw_trackers", []),
+            result["privacy_score"]
+        )
+    except:
+        result["guilt_trip"] = None
+    return result
 
 @app.get("/compare/{app1}/{app2}")
 def compare_apps(app1: str, app2: str):
-    """Side-by-side comparison for the UI"""
-    res1 = MOCK_APPS.get(app1, {"score": 50})
-    res2 = MOCK_APPS.get(app2, {"score": 50})
-    
-    winner = app1 if res1["score"] >= res2["score"] else app2
-    
+    raw1 = get_app_data(app1)
+    raw2 = get_app_data(app2)
+    result1 = analyze_from_fetcher(raw1)
+    result2 = analyze_from_fetcher(raw2)
+    winner = app1 if result1["privacy_score"] > result2["privacy_score"] else app2
     return {
         "winner": winner,
-        "comparison": {
-            app1: res1["score"],
-            app2: res2["score"]
-        },
-        "verdict": f"{winner} is significantly more private for your data."
+        "score_difference": abs(
+            result1["privacy_score"] - result2["privacy_score"]
+        ),
+        "app1": result1,
+        "app2": result2
     }
 
 @app.post("/audit")
 def full_phone_audit(request: AuditRequest):
-    """The 'Bulk Upload' feature for the dashboard"""
     results = []
-    total_score = 0
-    
+    skipped = []
     for app_name in request.apps:
-        app_data = MOCK_APPS.get(app_name, {"score": 50, "risk": "Unknown"})
-        results.append({"name": app_name, "score": app_data["score"], "risk": app_data["risk"]})
-        total_score += app_data["score"]
-    
-    avg_score = total_score / len(request.apps) if request.apps else 0
-    
+        raw = get_app_data(app_name)
+        if raw.get("source") == "not_found":
+            skipped.append(app_name)
+            continue
+        result = analyze_from_fetcher(raw)
+        results.append({
+            "name": result["app_name"],
+            "score": result["privacy_score"],
+            "risk": result["score_label"]["label"],
+            "emoji": result["score_label"]["emoji"],
+            "top_risks": [
+                p["permission"] for p in result["permissions"]
+                if p["tier"] == "HIGH"
+            ][:3]
+        })
+    if not results:
+        raise HTTPException(status_code=404, detail="No apps found")
+    total = len(results)
+    avg_score = sum(r["score"] for r in results) // total
+    dangerous = sum(1 for r in results if r["score"] < 30)
+    scariest = min(results, key=lambda x: x["score"])
     return {
-        "overall_health": round(avg_score),
-        "total_scanned": len(request.apps),
-        "breakdown": results
+        "overall_health": avg_score,
+        "total_scanned": total,
+        "dangerous_count": dangerous,
+        "scariest_app": scariest["name"],
+        "scariest_score": scariest["score"],
+        "breakdown": results,
+        "skipped": skipped
+    }
+
+@app.post("/scan-phone")
+async def scan_phone(screenshot: UploadFile = File(...)):
+    os.makedirs("temp", exist_ok=True)
+    temp_path = f"temp/{screenshot.filename}"
+    with open(temp_path, "wb") as f:
+        shutil.copyfileobj(screenshot.file, f)
+    try:
+        apps_found = scan_apps_from_image(temp_path)
+    finally:
+        os.remove(temp_path)
+    if not apps_found:
+        raise HTTPException(status_code=400, detail="No apps detected")
+    results = []
+    skipped = []
+    for app_name in apps_found:
+        raw = get_app_data(app_name)
+        if raw.get("source") == "not_found":
+            skipped.append(app_name)
+            continue
+        result = analyze_from_fetcher(raw)
+        results.append(result)
+    if not results:
+        raise HTTPException(status_code=404, detail="Could not score any apps")
+    total = len(results)
+    phone_score = sum(r["privacy_score"] for r in results) // total
+    dangerous = sum(1 for r in results if r["privacy_score"] < 30)
+    scariest = min(results, key=lambda x: x["privacy_score"])
+    return {
+        "phone_score": phone_score,
+        "total_scanned": total,
+        "dangerous_count": dangerous,
+        "scariest_app": scariest["app_name"],
+        "apps": results,
+        "skipped": skipped,
+        "apps_detected": apps_found
     }
 
 @app.get("/timeline/{name}")
 def privacy_time_machine(name: str):
-    """The 'Innovation Award' feature: Tracking permission creep over time"""
+    timelines = {
+        "tiktok": {
+            "app": "TikTok",
+            "history": [
+                {"year": 2019, "perms": 9, "event": "Initial Launch"},
+                {"year": 2020, "perms": 14, "event": "Background location added"},
+                {"year": 2022, "perms": 19, "event": "Ad network SDKs integrated"},
+                {"year": 2024, "perms": 23, "event": "Biometric access added"},
+                {"year": 2026, "perms": 26, "event": "Current Version"}
+            ],
+            "growth_percent": 189,
+            "summary": "TikTok has nearly tripled its data collection since 2019"
+        },
+        "instagram": {
+            "app": "Instagram",
+            "history": [
+                {"year": 2018, "perms": 7, "event": "Pre-Facebook integration"},
+                {"year": 2020, "perms": 12, "event": "Facebook data sharing added"},
+                {"year": 2022, "perms": 16, "event": "Shopping tracking added"},
+                {"year": 2026, "perms": 18, "event": "Current Version"}
+            ],
+            "growth_percent": 157,
+            "summary": "Instagram doubled data collection after Facebook acquisition"
+        },
+        "signal": {
+            "app": "Signal",
+            "history": [
+                {"year": 2018, "perms": 4, "event": "Initial Release"},
+                {"year": 2021, "perms": 5, "event": "Added note to self"},
+                {"year": 2026, "perms": 5, "event": "Current Version"}
+            ],
+            "growth_percent": 25,
+            "summary": "Signal has barely changed its permissions in 8 years"
+        }
+    }
+    key = name.lower().strip()
+    if key in timelines:
+        return timelines[key]
     return {
         "app": name,
         "history": [
             {"year": 2020, "perms": 5, "event": "Initial Release"},
-            {"year": 2022, "perms": 12, "event": "Ad-Network Integration"},
-            {"year": 2024, "perms": 18, "event": "Background Tracking Added"},
-            {"year": 2026, "perms": 23, "event": "Current Version"}
-        ]
+            {"year": 2026, "perms": 9, "event": "Current Version"}
+        ],
+        "growth_percent": 80,
+        "summary": f"{name} has grown its data collection over time"
     }
