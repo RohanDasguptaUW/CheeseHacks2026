@@ -56,7 +56,7 @@ export default function ScreenshotScan() {
     formData.append("image", image)
 
     try {
-      const res = await fetch("http://localhost:8001/api/scan-screenshot", {
+      const res = await fetch("http://localhost:8000/api/scan-screenshot", {
         method: "POST",
         body: formData
       })

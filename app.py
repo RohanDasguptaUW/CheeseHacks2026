@@ -40,29 +40,35 @@ def scan_screenshot():
     filepath = os.path.join("/tmp", filename)
     file.save(filepath)
 
-    # Step 1 — get app names + packages from screenshot
+    # Step 1 — get app names from screenshot
     apps_from_image = scan_apps_from_image(filepath)
     os.remove(filepath)
 
     if not apps_from_image:
         return jsonify({"error": "No apps detected in screenshot"}), 400
 
-    # Step 2 — scan each app, use package name for icon
+    # Step 2 — handle both string list and dict list
     results = []
     app_names = []
     for item in apps_from_image:
-        name = item.get("name", "")
-        package = item.get("package", "")
-        app_names.append(name)
+        # Handle both {"name": "TikTok"} and "TikTok"
+        if isinstance(item, dict):
+            name = item.get("name", "")
+            package = item.get("package", "")
+        else:
+            name = item
+            package = ""
 
+        if not name:
+            continue
+
+        app_names.append(name)
         data = get_demo_data(name.lower()) or get_app_data(package or name)
         if data and data.get("source") != "not_found":
-            # Inject package name from Gemini if not already present
             if not data.get("package_name") and package:
                 data["package_name"] = package
             results.append(data)
         else:
-            # App not in our database but still show it with icon
             results.append({
                 "app_name": name,
                 "package_name": package,
