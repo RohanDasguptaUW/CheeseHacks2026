@@ -65,7 +65,7 @@ export default function AppResult() {
       minHeight: "100vh", background: "var(--bg)",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center", gap: "1rem"
-    }}>ƒ
+    }}>
       <div style={{
         width: "36px", height: "36px",
         border: "3px solid var(--border)",
