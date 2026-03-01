@@ -285,6 +285,375 @@ APP_DATABASE = {
     "permission_count": 5,
     "category": "productivity"
 },
+"garageband": {
+        "app_name": "GarageBand",
+        "package_name": "com.apple.mobilegarageband",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 3,
+        "category": "entertainment"
+    },
+    "roblox": {
+        "app_name": "Roblox",
+        "package_name": "com.roblox.client",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 6,
+        "category": "gaming"
+    },
+    "minecraft": {
+        "app_name": "Minecraft",
+        "package_name": "com.mojang.minecraftpe",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Xbox Analytics", "website": "xbox.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 4,
+        "category": "gaming"
+    },
+    "drive": {
+        "app_name": "Google Drive",
+        "package_name": "com.google.android.apps.docs",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.GET_ACCOUNTS", "label": "Account List", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 5,
+        "category": "productivity"
+    },
+    "formula 1": {
+        "app_name": "Formula 1",
+        "package_name": "com.formula1.official.fanapp",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Comscore", "website": "comscore.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 3,
+        "category": "sports"
+    },
+    "nytimes": {
+        "app_name": "NYTimes",
+        "package_name": "com.nytimes.android",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Comscore", "website": "comscore.com", "categories": ["Analytics"]},
+            {"name": "Nielsen", "website": "nielsen.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 3,
+        "category": "news"
+    },
+    "gardenscapes": {
+        "app_name": "Gardenscapes",
+        "package_name": "com.playrix.gardenscapes",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "ironSource", "website": "ironsource.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 3,
+        "category": "gaming"
+    },
+    "angry birds 2": {
+        "app_name": "Angry Birds 2",
+        "package_name": "com.rovio.baba",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Unity Ads", "website": "unity.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 3,
+        "category": "gaming"
+    },
+    "flipaclip": {
+        "app_name": "FlipaClip",
+        "package_name": "com.vblast.flipaclip",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 4,
+        "category": "creative"
+    },
+    "netflix": {
+        "app_name": "Netflix",
+        "package_name": "com.netflix.mediaclient",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Conviva", "website": "conviva.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "entertainment"
+    },
+    "youtube": {
+        "app_name": "YouTube",
+        "package_name": "com.google.android.youtube",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Ads", "website": "google.com", "categories": ["Ads"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 5,
+        "category": "entertainment"
+    },
+    "amazon": {
+        "app_name": "Amazon",
+        "package_name": "com.amazon.mShop.android.shopping",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Amazon Analytics", "website": "amazon.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 6,
+        "category": "shopping"
+    },
+    "pinterest": {
+        "app_name": "Pinterest",
+        "package_name": "com.pinterest",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Pinterest Analytics", "website": "pinterest.com", "categories": ["Analytics"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 5,
+        "category": "social_media"
+    },
+    "notion": {
+        "app_name": "Notion",
+        "package_name": "notion.id",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.WRITE_EXTERNAL_STORAGE", "label": "Write Files", "risk": "medium"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Amplitude", "website": "amplitude.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 2,
+        "permission_count": 3,
+        "category": "productivity"
+    },
+    "reddit": {
+        "app_name": "Reddit",
+        "package_name": "com.reddit.frontpage",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "Adjust", "website": "adjust.com", "categories": ["Attribution"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 5,
+        "category": "social_media"
+    },
+    "google maps": {
+        "app_name": "Google Maps",
+        "package_name": "com.google.android.apps.maps",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.ACCESS_FINE_LOCATION", "label": "Precise Location", "risk": "high"},
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Analytics", "website": "google.com", "categories": ["Analytics"]},
+            {"name": "Google Ads", "website": "google.com", "categories": ["Ads"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 3,
+        "permission_count": 5,
+        "category": "navigation"
+    },
+    "claude": {
+        "app_name": "Claude",
+        "package_name": "com.anthropic.claude",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 1,
+        "permission_count": 3,
+        "category": "productivity"
+    },
+    "duo mobile": {
+        "app_name": "Duo Mobile",
+        "package_name": "com.duosecurity.duomobile",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.CAMERA", "label": "Camera", "risk": "high"},
+            {"name": "android.permission.READ_CONTACTS", "label": "Contacts", "risk": "high"},
+            {"name": "android.permission.READ_PHONE_STATE", "label": "Phone Identity (IMEI)", "risk": "medium"},
+        ],
+        "trackers": [],
+        "tracker_count": 0,
+        "permission_count": 3,
+        "category": "security"
+    },
+    "hole.io": {
+        "app_name": "Hole.io",
+        "package_name": "io.voodoo.hole",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Unity Ads", "website": "unity.com", "categories": ["Ads"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 2,
+        "category": "gaming"
+    },
+    "stumble guys": {
+        "app_name": "Stumble Guys",
+        "package_name": "com.scopely.stumbleguys",
+        "source": "exodus",
+        "permissions": [
+            {"name": "android.permission.RECORD_AUDIO", "label": "Microphone", "risk": "high"},
+            {"name": "android.permission.READ_EXTERNAL_STORAGE", "label": "Read Files", "risk": "medium"},
+            {"name": "android.permission.ACCESS_COARSE_LOCATION", "label": "Approximate Location", "risk": "medium"},
+        ],
+        "trackers": [
+            {"name": "Unity Ads", "website": "unity.com", "categories": ["Ads"]},
+            {"name": "Google Firebase", "website": "firebase.google.com", "categories": ["Analytics"]},
+            {"name": "Facebook Ads", "website": "facebook.com", "categories": ["Ads"]},
+            {"name": "AppsFlyer", "website": "appsflyer.com", "categories": ["Analytics"]},
+        ],
+        "tracker_count": 4,
+        "permission_count": 3,
+        "category": "gaming"
+    },
 "doordash": {
     "app_name": "DoorDash",
     "package_name": "com.dd.doordash",
