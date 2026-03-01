@@ -1,4 +1,23 @@
-__pycache__/
-cache/
-*.pyc
+# Secret keys - never push these
 .env
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test outputs
+*.log
